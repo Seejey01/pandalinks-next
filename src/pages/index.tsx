@@ -23,12 +23,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const sb_refresh_token = cookies.sb_refresh_token
 
     const response = await supabaseClient.auth.getUser(sb_access_token)
-    supabaseClient.auth.setSession({ access_token: cookies.sb_access_token, refresh_token: sb_refresh_token })
+    supabaseClient.auth.setSession({
+      access_token: cookies.sb_access_token,
+      refresh_token: sb_refresh_token,
+    })
 
     const { data } = await supabaseClient
-    .from(SupabaseTable.Links)
-    .select()
-    .eq('user_id', response.data.user?.id)
+      .from(SupabaseTable.Links)
+      .select()
+      .eq('user_id', response.data.user?.id)
 
     const links = LinkUtils.applyPinAndSortByCreatedAt(data as Link[])
 
@@ -105,6 +108,7 @@ function HomePage(props: Props) {
 
         {!!useLinksHook.allTags.length && (
           <GlobalTagsSelector
+            links={useLinksHook.allLinks}
             tags={useLinksHook.allTags}
             selectedTags={useLinksHook.selectedTags}
             onChange={useLinksHook.actions.setSelectedTags}

@@ -203,6 +203,7 @@ export function useLinks(params: UseLinksParams) {
 
   return {
     links: filteredLinks,
+    allLinks: links,
     isLoading: linksQuery.isLoading,
 
     searchQ: searchQ,

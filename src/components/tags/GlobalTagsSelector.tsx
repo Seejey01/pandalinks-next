@@ -1,3 +1,4 @@
+import { Link } from '@/api/LinksApi'
 import { LinkUtils } from '@/utils/link-utils'
 import classNames from 'classnames'
 import React, { useCallback } from 'react'
@@ -8,6 +9,7 @@ interface Props {
   tags: string[]
   selectedTags: string[]
   onChange: (tags: string[]) => void
+  links: Link[]
 }
 
 function GlobalTagsSelector(props: Props) {
@@ -48,9 +50,10 @@ function GlobalTagsSelector(props: Props) {
         <span
           onClick={onAllClick}
           className={classNames({
-            'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs ring-1 ring-inset': true,
-            'bg-gray-50 text-gray-800 ring-gray-600/20 hover:bg-gray-100 dark:text-slate-400 dark:bg-gray-800 dark:ring-gray-500/20 dark:hover:bg-gray-700':
-              !isAllSelected,
+            'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs ring-1 ring-inset':
+              true,
+            [`bg-gray-50 text-gray-800 ring-gray-600/20 hover:bg-gray-100 dark:text-slate-400 dark:bg-gray-800
+            dark:ring-gray-500/20 dark:hover:bg-gray-700`]: !isAllSelected,
             [allTagColorClasses]: isAllSelected,
           })}
         >
@@ -69,12 +72,19 @@ function GlobalTagsSelector(props: Props) {
             className={classNames({
               'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs ring-1 ring-inset':
                 true,
-              'bg-gray-50 text-gray-800 ring-gray-600/20 hover:bg-gray-100 dark:text-slate-400 dark:bg-gray-800 dark:ring-gray-500/20 dark:hover:bg-gray-700':
-                !isSelected,
+              [`bg-gray-50 text-gray-800 ring-gray-600/20 hover:bg-gray-100 dark:text-slate-400 dark:bg-gray-800
+              dark:ring-gray-500/20 dark:hover:bg-gray-700`]: !isSelected,
               [tagColorClasses]: isSelected,
             })}
           >
-            #{tag}
+            #{tag}{' '}
+            <span
+              className={classNames('ml-1', {
+                'text-gray-400 dark:text-slate-500': !isSelected,
+              })}
+            >
+              {props.links.filter((link) => link.tags.includes(tag)).length}
+            </span>
           </span>
         )
       })}
