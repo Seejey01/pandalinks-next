@@ -7,6 +7,7 @@ import fp from 'lodash/fp'
 import { useContext, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { SupabaseAuthContext } from '@/context/SupabaseAuthContext'
+import { UNTAGGED_TAG } from '@/components/tags/GlobalTagsSelector'
 
 interface UseLinksParams {
   initialData?: Link[]
@@ -36,6 +37,11 @@ export function useLinks(params: UseLinksParams) {
       fp.filter((link: Link) => {
         if (!selectedTags.length) {
           return true
+        }
+
+        // Check if "untagged" is selected
+        if (selectedTags.includes(UNTAGGED_TAG)) {
+          return link.tags.length === 0
         }
 
         return link.tags.some((tag) => selectedTags.includes(tag))

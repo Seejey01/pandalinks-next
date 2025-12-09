@@ -3,7 +3,8 @@ import { LinkUtils } from '@/utils/link-utils'
 import classNames from 'classnames'
 import React, { useCallback } from 'react'
 
-const ALL_TAG = 'all'
+export const ALL_TAG = 'all'
+export const UNTAGGED_TAG = 'untagged'
 
 interface Props {
   tags: string[]
@@ -38,9 +39,21 @@ function GlobalTagsSelector(props: Props) {
   const isAllSelected = Boolean(props.selectedTags.length === 0)
   const allTagColorClasses = LinkUtils.getRandomTagColorClasses(ALL_TAG)
 
+  const isUntaggedSelected = props.selectedTags.includes(UNTAGGED_TAG)
+  const untaggedTagColorClasses = LinkUtils.getRandomTagColorClasses(UNTAGGED_TAG)
+  const untaggedLinksCount = props.links.filter((link) => link.tags.length === 0).length
+
   function onAllClick() {
     if (props.selectedTags.length) {
       props.onChange([])
+    }
+  }
+
+  function onUntaggedClick() {
+    if (isUntaggedSelected) {
+      props.onChange([])
+    } else {
+      props.onChange([UNTAGGED_TAG])
     }
   }
 
@@ -88,6 +101,28 @@ function GlobalTagsSelector(props: Props) {
           </span>
         )
       })}
+
+      {untaggedLinksCount > 0 && (
+        <span
+          onClick={onUntaggedClick}
+          className={classNames({
+            'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs ring-1 ring-inset':
+              true,
+            [`bg-gray-50 text-gray-800 ring-gray-600/20 hover:bg-gray-100 dark:text-slate-400 dark:bg-gray-800
+            dark:ring-gray-500/20 dark:hover:bg-gray-700`]: !isUntaggedSelected,
+            [untaggedTagColorClasses]: isUntaggedSelected,
+          })}
+        >
+          #{UNTAGGED_TAG}{' '}
+          <span
+            className={classNames('ml-1', {
+              'text-gray-400 dark:text-slate-500': !isUntaggedSelected,
+            })}
+          >
+            {untaggedLinksCount}
+          </span>
+        </span>
+      )}
     </div>
   )
 }
