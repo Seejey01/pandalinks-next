@@ -1,5 +1,5 @@
 # Bookmarks by Panda
 
-Deployed at [pandalinks.co](https://pandalinks.co),  fun attempt to build something cool.
+Deployed at [pandalinks-next.vercel.app](https://pandalinks-next.vercel.app/),  fun attempt to build something cool.
 
 ![preview](./public/app-preview.png)
