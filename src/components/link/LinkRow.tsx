@@ -370,8 +370,8 @@ function LinkRowImage(props: LinkRowImageProps) {
   return (
     <Image
       className={classNames({
-        'bg-gray-50 group-hover:bg-gray-100': true,
-        'bg-white group-hover:bg-white': props.isEditMode,
+        'bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700': true,
+        'bg-white group-hover:bg-white dark:bg-slate-700 dark:hover:bg-slate-700': props.isEditMode,
       })}
       alt="test"
       width={17}
