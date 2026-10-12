@@ -73,6 +73,7 @@ async function updateLink(updates: UpdateLinkRequestParams): Promise<void> {
 export interface CreateLinkRequestParams {
   title: string
   url: string
+  tags?: string[]
 }
 
 async function createLink(params: CreateLinkRequestParams) {
@@ -86,7 +87,7 @@ async function createLink(params: CreateLinkRequestParams) {
     title: params.title,
     url: params.url,
     user_id: user?.id,
-    tags: [],
+    tags: params.tags || [],
     created_at,
     updated_at,
     visited_at,

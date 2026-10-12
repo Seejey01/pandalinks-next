@@ -100,6 +100,7 @@ function HomePage(props: Props) {
           onFocus={() => listCursorHook.setCursor(null)}
           isLoading={useLinksHook.mutations.createLinkMutation.isPending}
           onCreate={useLinksHook.actions.createLink}
+          selectedTags={useLinksHook.selectedTags}
           value={useLinksHook.searchQ}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             useLinksHook.actions.setSearchQ(event.target.value)

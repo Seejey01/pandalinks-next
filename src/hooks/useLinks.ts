@@ -4,10 +4,11 @@ import { ReactQueryKey } from '@/api/ReactQueryKey'
 import { LinkUtils } from '@/utils/link-utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import fp from 'lodash/fp'
-import { useContext, useMemo, useState } from 'react'
+import { useCallback, useContext, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { SupabaseAuthContext } from '@/context/SupabaseAuthContext'
 import { UNTAGGED_TAG } from '@/components/tags/GlobalTagsSelector'
+import { useRouter } from 'next/router'
 
 interface UseLinksParams {
   initialData?: Link[]
@@ -16,9 +17,32 @@ interface UseLinksParams {
 export function useLinks(params: UseLinksParams) {
   const queryClient = useQueryClient()
   const { user } = useContext(SupabaseAuthContext)
+  const router = useRouter()
 
   const [searchQ, setSearchQ] = useState<string>('')
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+
+  const selectedTags = useMemo(() => {
+    const folder = router.query.folder
+    if (!folder) return [] as string[]
+    if (typeof folder === 'string') return [folder]
+    return folder
+  }, [router.query.folder])
+
+  const setSelectedTags = useCallback(
+    (tags: string[]) => {
+      if (tags.length === 0) {
+        const { folder, ...rest } = router.query
+        router.replace({ query: rest }, undefined, { shallow: true })
+      } else {
+        router.replace(
+          { query: { ...router.query, folder: tags[0] } },
+          undefined,
+          { shallow: true }
+        )
+      }
+    },
+    [router]
+  )
 
   const linksQuery = useQuery({
     queryKey: [ReactQueryKey.getLinks, user?.id],
@@ -79,9 +103,9 @@ export function useLinks(params: UseLinksParams) {
     mutationFn: (linkId: string) => LinksApi.deleteLink(linkId),
   })
 
-  function createLink(url: string, title: string) {
+  function createLink(url: string, title: string, tags?: string[]) {
     const createPromise = createLinkMutation.mutateAsync(
-      { url, title: title },
+      { url, title, tags },
       {
         onSuccess: (newLink) => {
           queryClient.setQueryData([ReactQueryKey.getLinks, user?.id], (data) => {
