@@ -174,8 +174,9 @@ function LinkRow(props: Props) {
     }
   }
 
-  function onInputKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+  function onInputKeyDown(event: React.KeyboardEvent) {
     if (event.key === 'Enter') {
+      event.preventDefault()
       onSaveEdit()
     }
   }
@@ -270,14 +271,20 @@ function LinkRow(props: Props) {
                   className="flex-1 focus:outline-none bg-transparent w-full text-gray-800 dark:text-slate-300"
                 />
 
-                <input
+                <textarea
                   onKeyDown={onInputKeyDown}
                   onChange={(event) => setUrl(event.target.value)}
                   value={url}
                   onFocus={(e) => e.target.select()}
-                  type="text"
                   placeholder="Nike.com"
-                  className="flex-1 focus:outline-none text-sm text-gray-400 dark:text-slate-400 bg-transparent w-full"
+                  rows={1}
+                  className="flex-1 focus:outline-none text-sm text-gray-400 dark:text-slate-400 bg-transparent w-full resize-none overflow-hidden break-all"
+                  ref={(el) => {
+                    if (el) {
+                      el.style.height = 'auto'
+                      el.style.height = el.scrollHeight + 'px'
+                    }
+                  }}
                 />
 
                 <div className="mt-3 flex justify-end">
