@@ -22,20 +22,20 @@ export function useLinks(params: UseLinksParams) {
   const [searchQ, setSearchQ] = useState<string>('')
 
   const selectedTags = useMemo(() => {
-    const folder = router.query.folder
-    if (!folder) return [] as string[]
-    if (typeof folder === 'string') return [folder]
-    return folder
-  }, [router.query.folder])
+    const tag = router.query.tag
+    if (!tag) return [] as string[]
+    if (typeof tag === 'string') return [tag]
+    return tag
+  }, [router.query.tag])
 
   const setSelectedTags = useCallback(
     (tags: string[]) => {
       if (tags.length === 0) {
-        const { folder, ...rest } = router.query
+        const { tag, ...rest } = router.query
         router.replace({ query: rest }, undefined, { shallow: true })
       } else {
         router.replace(
-          { query: { ...router.query, folder: tags[0] } },
+          { query: { ...router.query, tag: tags[0] } },
           undefined,
           { shallow: true }
         )
