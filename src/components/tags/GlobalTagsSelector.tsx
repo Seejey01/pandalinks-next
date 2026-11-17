@@ -45,9 +45,9 @@ function GlobalTagsSelector(props: Props) {
   const untaggedCount = tagCountMap.get(UNTAGGED_TAG) || 0
 
   const items = useMemo(() => {
-    const list = filteredTags.map((tag) => ({ type: 'tag' as const, tag, count: tagCountMap.get(tag) || 0 }))
+    const list = filteredTags.map((tag) => ({ tag, count: tagCountMap.get(tag) || 0 }))
     if (untaggedCount > 0 && (!search || UNTAGGED_TAG.includes(search.toLowerCase()))) {
-      list.push({ type: 'tag' as const, tag: UNTAGGED_TAG, count: untaggedCount })
+      list.push({ tag: UNTAGGED_TAG, count: untaggedCount })
     }
     return list
   }, [filteredTags, tagCountMap, untaggedCount, search])
@@ -90,7 +90,6 @@ function GlobalTagsSelector(props: Props) {
     }
   }
 
-  // Scroll highlighted item into view
   useEffect(() => {
     if (!listRef.current) return
     const el = listRef.current.children[highlightIndex] as HTMLElement | undefined
@@ -107,21 +106,41 @@ function GlobalTagsSelector(props: Props) {
   const isTagType = selectedTag && selectedTag !== UNTAGGED_TAG
   const triggerColorClasses = isTagType ? LinkUtils.getRandomTagColorClasses(selectedTag) : ''
 
+  // Filter icon (funnel)
+  const filterIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="flex-shrink-0"
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  )
+
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         {selectedTag ? (
           <button
             className={classNames(
-              'inline-flex items-center rounded-lg h-[42px] px-3 text-xs font-medium ring-1 ring-inset outline-none cursor-pointer',
+              'inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ring-1 ring-inset outline-none cursor-pointer',
               triggerColorClasses,
-              selectedTag === UNTAGGED_TAG && 'bg-gray-100 text-gray-700 ring-gray-300 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600'
+              selectedTag === UNTAGGED_TAG &&
+                'bg-gray-100 text-gray-700 ring-gray-300 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600'
             )}
           >
-            <span className="truncate max-w-[120px]">#{selectedTag}</span>
+            {filterIcon}
+            <span className="truncate max-w-[160px]">#{selectedTag}</span>
             <span
               onClick={clearSelection}
-              className="ml-1.5 -mr-1 p-0.5 rounded hover:bg-black/10 dark:hover:bg-white/10"
+              className="ml-0.5 -mr-1 p-0.5 rounded hover:bg-black/10 dark:hover:bg-white/10"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -140,23 +159,26 @@ function GlobalTagsSelector(props: Props) {
             </span>
           </button>
         ) : (
-          <button className="btn-default h-[42px] px-3 outline-none">
+          <button
+            className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium outline-none cursor-pointer
+              bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-100
+              dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-600 dark:hover:bg-slate-700"
+          >
+            {filterIcon}
+            All
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="10"
+              height="10"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-gray-800 dark:text-gray-300"
+              className="flex-shrink-0"
             >
-              <line x1="4" y1="9" x2="20" y2="9" />
-              <line x1="4" y1="15" x2="20" y2="15" />
-              <line x1="10" y1="3" x2="8" y2="21" />
-              <line x1="16" y1="3" x2="14" y2="21" />
+              <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
         )}
