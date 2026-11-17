@@ -87,6 +87,35 @@ const TAG_COLOR_CLASSES = [
   // 'bg-yellow-50 text-yellow-800 ring-yellow-600/20 dark:bg-yellow-100 dark:opacity-90',
 ]
 
+const TAG_DOT_COLOR_CLASSES = [
+  'bg-red-400',
+  'bg-orange-400',
+  'bg-amber-400',
+  'bg-lime-400',
+  'bg-green-400',
+  'bg-emerald-400',
+  'bg-teal-400',
+  'bg-cyan-400',
+  'bg-sky-400',
+  'bg-blue-400',
+  'bg-indigo-400',
+  'bg-violet-400',
+  'bg-purple-400',
+  'bg-fuchsia-400',
+  'bg-pink-400',
+  'bg-rose-400',
+]
+
+const getTagDotColorClass = (tag: string) => {
+  if (tag === 'pinned') {
+    return 'bg-yellow-400'
+  }
+
+  const rand = parseInt(tag, 36)
+
+  return TAG_DOT_COLOR_CLASSES[rand ? rand % TAG_DOT_COLOR_CLASSES.length : 0]
+}
+
 const getRandomTagColorClasses = (tag: string) => {
   if (tag === 'pinned') {
     return 'bg-yellow-50 text-yellow-800 ring-yellow-600/20 dark:bg-yellow-100 dark:opacity-90'
@@ -116,5 +145,6 @@ export const LinkUtils = {
   applyPinAndSortByCreatedAt,
   getBookmarksFromImportedJson,
   getRandomTagColorClasses,
+  getTagDotColorClass,
   isValidUrl,
 }

@@ -13,6 +13,7 @@ interface Props {
   isLoading: boolean
   onFocus?: () => void
   selectedTags: string[]
+  tagFilterSlot?: React.ReactNode
 }
 
 function SearchAndCreateLinksInput(props: Props) {
@@ -138,6 +139,8 @@ function SearchAndCreateLinksInput(props: Props) {
           </kbd>
         </div>
       </div>
+
+      {props.tagFilterSlot}
 
       <Popover.Root modal open={isOpen} onOpenChange={setIsOpen}>
         <Popover.Trigger className="outline-none btn-default h-[42px] px-3">

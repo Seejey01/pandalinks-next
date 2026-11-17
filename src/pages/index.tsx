@@ -105,16 +105,17 @@ function HomePage(props: Props) {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             useLinksHook.actions.setSearchQ(event.target.value)
           }}
+          tagFilterSlot={
+            useLinksHook.allTags.length > 0 ? (
+              <GlobalTagsSelector
+                links={useLinksHook.allLinks}
+                tags={useLinksHook.allTags}
+                selectedTags={useLinksHook.selectedTags}
+                onChange={useLinksHook.actions.setSelectedTags}
+              />
+            ) : undefined
+          }
         />
-
-        {!!useLinksHook.allTags.length && (
-          <GlobalTagsSelector
-            links={useLinksHook.allLinks}
-            tags={useLinksHook.allTags}
-            selectedTags={useLinksHook.selectedTags}
-            onChange={useLinksHook.actions.setSelectedTags}
-          />
-        )}
 
         <div className="space-y-2">
           {!useLinksHook.isLoading && !useLinksHook.links.length && (
