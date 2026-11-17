@@ -273,7 +273,7 @@ function SearchAndCreateLinksInput(props: Props) {
                     }}
                     type="text"
                     placeholder={tags.length ? '' : 'Add tags...'}
-                    className="flex-1 min-w-[60px] bg-transparent py-0.5 text-xs text-gray-700 outline-none
+                    className="flex-1 min-w-[60px] bg-transparent py-0.5 text-sm text-gray-700 outline-none
                       placeholder:text-gray-400 dark:text-white dark:placeholder:text-slate-500"
                   />
                 </div>
