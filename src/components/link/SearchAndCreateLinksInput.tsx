@@ -186,114 +186,111 @@ function SearchAndCreateLinksInput(props: Props) {
         <Popover.Portal>
           <Popover.Content
             align="end"
-            className="space-y-2 -right-8 mt-2 w-[340px] rounded-lg bg-white shadow-lg border text-sm text-gray-800 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 p-4"
+            className="-right-8 mt-2 w-[340px] rounded-lg bg-white shadow-lg border text-sm text-gray-800 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
             sideOffset={5}
             alignOffset={-20}
           >
-            <input
-              onKeyDown={onKeyDown}
-              value={url}
-              onChange={(event) => setUrl(event.target.value)}
-              type="text"
-              autoFocus
-              placeholder="URL: instagram.com"
-              className="w-full px-2 py-2 text-gray-700 bg-gray-50 outline-none border focus:ring-offset-0 focus:ring-1
-                focus:ring-slate-200 focus:border-slate-300 shadow-sm rounded-lg dark:bg-gray-800
-                dark:border-slate-700 dark:text-white dark:focus:ring-slate-700"
-            />
-
-            <div className="relative">
-              <input
-                onKeyDown={onKeyDown}
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
-                type="text"
-                placeholder="Title: Coolest page"
-                className={classNames(
-                  `w-full px-2 py-2 text-gray-700 bg-gray-50 outline-none border focus:ring-offset-0 focus:ring-1
-                  focus:ring-slate-200 focus:border-slate-300 shadow-sm rounded-lg dark:bg-gray-800
-                  dark:border-slate-700 dark:text-white dark:focus:ring-slate-700 dark:disabled:pointer-events-none
-                  dark:disabled:opacity-50`
-                )}
-              />
+            <div className="px-4 py-3 border-b dark:border-slate-700">
+              <p className="text-sm font-medium text-gray-800 dark:text-slate-200">New link</p>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex flex-wrap gap-1">
-                {tags.map((t) => (
-                  <span
-                    key={t}
-                    onClick={() => removeTag(t)}
-                    className={classNames(
-                      'inline-flex cursor-pointer items-center rounded-md px-2 py-0.5 text-xs ring-1 ring-inset hover:opacity-70',
-                      LinkUtils.getRandomTagColorClasses(t)
-                    )}
-                  >
-                    #{t}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="ml-0.5"
-                    >
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </span>
-                ))}
-              </div>
-
-              <div className="relative">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-gray-400 absolute left-2 inset-y-0 my-auto dark:text-slate-400"
-                >
-                  <line x1="4" y1="9" x2="20" y2="9"></line>
-                  <line x1="4" y1="15" x2="20" y2="15"></line>
-                  <line x1="10" y1="3" x2="8" y2="21"></line>
-                  <line x1="16" y1="3" x2="14" y2="21"></line>
-                </svg>
-
+            <div className="p-4 space-y-3">
+              <div className="space-y-1.5">
+                <label className="block text-xs font-medium text-gray-500 dark:text-slate-400">URL</label>
                 <input
-                  value={tagInput}
-                  onChange={(event) => setTagInput(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      event.stopPropagation()
-                      addTag()
-                    }
-                  }}
+                  onKeyDown={onKeyDown}
+                  value={url}
+                  onChange={(event) => setUrl(event.target.value)}
                   type="text"
-                  placeholder="Add tag..."
-                  className="w-full pl-6 pr-2 py-1.5 text-xs text-gray-700 bg-gray-50 outline-none border focus:ring-offset-0 focus:ring-1
+                  autoFocus
+                  placeholder="https://example.com"
+                  className="w-full px-2.5 py-2 text-gray-700 bg-gray-50 outline-none border focus:ring-offset-0 focus:ring-1
                     focus:ring-slate-200 focus:border-slate-300 shadow-sm rounded-lg dark:bg-gray-800
                     dark:border-slate-700 dark:text-white dark:focus:ring-slate-700"
                 />
               </div>
+
+              <div className="space-y-1.5">
+                <label className="block text-xs font-medium text-gray-500 dark:text-slate-400">Title</label>
+                <input
+                  onKeyDown={onKeyDown}
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  type="text"
+                  placeholder="My awesome page"
+                  className="w-full px-2.5 py-2 text-gray-700 bg-gray-50 outline-none border focus:ring-offset-0 focus:ring-1
+                    focus:ring-slate-200 focus:border-slate-300 shadow-sm rounded-lg dark:bg-gray-800
+                    dark:border-slate-700 dark:text-white dark:focus:ring-slate-700"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="block text-xs font-medium text-gray-500 dark:text-slate-400">Tags</label>
+                <div
+                  className="flex flex-wrap items-center gap-1.5 min-h-[36px] px-2 py-1.5 bg-gray-50 border rounded-lg
+                    focus-within:ring-1 focus-within:ring-slate-200 focus-within:border-slate-300 shadow-sm
+                    dark:bg-gray-800 dark:border-slate-700 dark:focus-within:ring-slate-700"
+                >
+                  {tags.map((t) => (
+                    <span
+                      key={t}
+                      onClick={() => removeTag(t)}
+                      className={classNames(
+                        'inline-flex cursor-pointer items-center rounded-md px-1.5 py-0.5 text-xs ring-1 ring-inset hover:opacity-70',
+                        LinkUtils.getRandomTagColorClasses(t)
+                      )}
+                    >
+                      #{t}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="ml-0.5"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </span>
+                  ))}
+
+                  <input
+                    value={tagInput}
+                    onChange={(event) => setTagInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.stopPropagation()
+                        addTag()
+                      }
+                      if (event.key === 'Backspace' && !tagInput && tags.length) {
+                        removeTag(tags[tags.length - 1])
+                      }
+                    }}
+                    type="text"
+                    placeholder={tags.length ? '' : 'Add tags...'}
+                    className="flex-1 min-w-[60px] bg-transparent py-0.5 text-xs text-gray-700 outline-none
+                      placeholder:text-gray-400 dark:text-white dark:placeholder:text-slate-500"
+                  />
+                </div>
+                <p className="text-[11px] text-gray-400 dark:text-slate-500">Press Enter to add a tag</p>
+              </div>
             </div>
 
-            <button
-              onClick={createLink}
-              disabled={!title.length || !url.length}
-              className="btn-default dark:bg-slate-700 dark:border-slate-700 dark:hover:bg-slate-600
-                dark:hover:border-slate-600 ml-auto"
-            >
-              Create link
-            </button>
+            <div className="px-4 py-3 border-t dark:border-slate-700">
+              <button
+                onClick={createLink}
+                disabled={!title.length || !url.length}
+                className="btn-default dark:bg-slate-700 dark:border-slate-700 dark:hover:bg-slate-600
+                  dark:hover:border-slate-600 ml-auto"
+              >
+                Create link
+              </button>
+            </div>
           </Popover.Content>
         </Popover.Portal>
       </Popover.Root>
